@@ -104,4 +104,8 @@ public class Product {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public void addCategory(Category category){
+        categories.add(category);
+    }
 }
