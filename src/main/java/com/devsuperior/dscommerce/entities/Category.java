@@ -58,4 +58,8 @@ public class Category {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public void removeProduct(Product product){
+        products.remove(product);
+    }
 }

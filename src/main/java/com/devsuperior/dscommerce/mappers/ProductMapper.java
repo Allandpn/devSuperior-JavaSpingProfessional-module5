@@ -1,6 +1,7 @@
 package com.devsuperior.dscommerce.mappers;
 
 import com.devsuperior.dscommerce.dto.CategorySumaryDTO;
+import com.devsuperior.dscommerce.dto.ProductCatalogDTO;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.dto.ProductRequest;
 import com.devsuperior.dscommerce.entities.Category;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 )
 public interface ProductMapper {
     ProductDTO toDTO(Product product);
+
+    ProductCatalogDTO toCatalogDTO(Product product);
 
     CategorySumaryDTO toCategorySumaryDTO(Category category);
 

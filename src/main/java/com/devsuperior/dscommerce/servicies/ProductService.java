@@ -1,7 +1,9 @@
 package com.devsuperior.dscommerce.servicies;
 
+import com.devsuperior.dscommerce.dto.ProductCatalogDTO;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.dto.ProductRequest;
+import com.devsuperior.dscommerce.entities.Category;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.mappers.ProductMapper;
 import com.devsuperior.dscommerce.repositories.CategoryRepository;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -36,9 +39,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> searchByName(String name, Pageable pageable){
+    public Page<ProductCatalogDTO> searchByName(String name, Pageable pageable){
         Page<Product> result = productRepository.searchByName(name, pageable);
-        return result.map(x -> productMapper.toDTO(x));
+        return result.map(x -> productMapper.toCatalogDTO(x));
     }
 
     @Transactional
@@ -61,8 +64,13 @@ public class ProductService {
         Product product = productRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
         try {
-        productRepository.delete(product);
-        productRepository.flush();
+            List<Category> categoryList =  product.getCategories().stream().toList();
+            for(Category category : categoryList){
+                category.removeProduct(product);
+            }
+            productRepository.flush();
+            productRepository.delete(product);
+            productRepository.flush();
         }
         catch (DataIntegrityViolationException e){
             throw new DatabaseException("Não é possível excluir pois há entidades relacionadas");
