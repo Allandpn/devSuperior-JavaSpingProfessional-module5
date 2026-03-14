@@ -5,6 +5,7 @@ import com.devsuperior.dscommerce.dto.ProductCatalogDTO;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.dto.ProductRequest;
 import com.devsuperior.dscommerce.entities.Category;
+import com.devsuperior.dscommerce.entities.OrderItem;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.mappers.ProductMapper;
 import com.devsuperior.dscommerce.repositories.CategoryRepository;
@@ -70,7 +71,7 @@ public class ProductService {
             for(Category category : categoryList){
                 category.removeProduct(product);
             }
-            productRepository.flush();
+
             productRepository.delete(product);
             productRepository.flush();
         }

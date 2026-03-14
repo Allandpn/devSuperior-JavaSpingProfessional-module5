@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotEmpty;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class OrderDTO {
 
@@ -22,7 +21,7 @@ public class OrderDTO {
     private PaymentMinDTO payment;
 
     @NotEmpty(message = "O pedido deve ter pelo menos um item")
-    private List<OrderItemDTO> itens = new ArrayList<>();
+    private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO() {
     }
@@ -44,7 +43,7 @@ public class OrderDTO {
         this.status = entity.getStatus();
         this.moment = entity.getMoment();
         for(OrderItem order : entity.getItems()){
-            itens.add(new OrderItemDTO(order));
+            items.add(new OrderItemDTO(order));
         }
     }
 
@@ -88,13 +87,13 @@ public class OrderDTO {
         this.payment = payment;
     }
 
-    public List<OrderItemDTO> getItens() {
-        return itens;
+    public List<OrderItemDTO> getItems() {
+        return items;
     }
 
     public Double getTotal() {
         double sum = 0.0;
-        for(OrderItemDTO item : itens){
+        for(OrderItemDTO item : items){
             sum += item.getSubTotal();
         }
         return sum;

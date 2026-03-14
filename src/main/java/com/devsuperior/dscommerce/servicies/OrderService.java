@@ -5,13 +5,10 @@ import com.devsuperior.dscommerce.repositories.OrderItemRepository;
 import com.devsuperior.dscommerce.repositories.OrderRepository;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
 import com.devsuperior.dscommerce.servicies.exceptions.ResourceNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.event.WindowStateListener;
 import java.time.Instant;
 
 @Service
@@ -52,7 +49,7 @@ public class OrderService{
         User user = userService.authenticated();
         order.setClient(user);
 
-        for(OrderItemDTO ordemItem: request.getItens()){
+        for(OrderItemDTO ordemItem: request.getItems()){
             Product product = productRepository.getReferenceById(ordemItem.getProductId());
             OrderItem item = new OrderItem(order, product, ordemItem.getQuantity(), product.getPrice());
             order.getItems().add(item);
