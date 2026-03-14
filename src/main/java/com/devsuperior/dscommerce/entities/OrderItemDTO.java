@@ -1,6 +1,6 @@
 package com.devsuperior.dscommerce.entities;
 
-public class OrdemItemDTO {
+public class OrderItemDTO {
     private Long productId;
 
     private String name;
@@ -9,19 +9,26 @@ public class OrdemItemDTO {
 
     private Integer quantity;
 
+    private String imgUrl;
 
-    public OrdemItemDTO(Long productId, Integer quantity, Double price, String name) {
+    public OrderItemDTO() {
+    }
+
+    public OrderItemDTO(Long productId, Integer quantity, Double price, String name, String imgUrl) {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
         this.name = name;
+        this.imgUrl = imgUrl;
     }
 
-    public OrdemItemDTO(OrderItem orderItem) {
+
+    public OrderItemDTO(OrderItem orderItem) {
         this.productId = orderItem.getProduct().getId();
         this.quantity = orderItem.getQuantity();
         this.price = orderItem.getPrice();
         this.name = orderItem.getProduct().getName();
+        this.imgUrl = orderItem.getProduct().getImgUrl();
     }
 
     public Long getProductId() {
@@ -58,5 +65,13 @@ public class OrdemItemDTO {
 
     public double getSubTotal(){
         return price * quantity;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

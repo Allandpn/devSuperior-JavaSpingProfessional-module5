@@ -2,6 +2,7 @@ package com.devsuperior.dscommerce.entities;
 
 import com.devsuperior.dscommerce.dto.ClientMinDTO;
 import com.devsuperior.dscommerce.dto.PaymentMinDTO;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,7 +21,13 @@ public class OrderDTO {
 
     private PaymentMinDTO payment;
 
-    private List<OrdemItemDTO> itens = new ArrayList<>();
+    @NotEmpty(message = "O pedido deve ter pelo menos um item")
+    private List<OrderItemDTO> itens = new ArrayList<>();
+
+    public OrderDTO() {
+    }
+
+
 
     public OrderDTO(Long id, PaymentMinDTO payment, ClientMinDTO client, OrderStatus status, Instant moment) {
         this.id = id;
@@ -36,7 +43,9 @@ public class OrderDTO {
         this.client = new ClientMinDTO(entity.getClient());
         this.status = entity.getStatus();
         this.moment = entity.getMoment();
-        setItens(entity.getItems());
+        for(OrderItem order : entity.getItems()){
+            itens.add(new OrderItemDTO(order));
+        }
     }
 
     public Long getId() {
@@ -79,19 +88,13 @@ public class OrderDTO {
         this.payment = payment;
     }
 
-    public List<OrdemItemDTO> getItens() {
+    public List<OrderItemDTO> getItens() {
         return itens;
-    }
-
-    public void setItens(Set<OrderItem> list) {
-        for(OrderItem order : list){
-            itens.add(new OrdemItemDTO(order));
-        }
     }
 
     public Double getTotal() {
         double sum = 0.0;
-        for(OrdemItemDTO item : itens){
+        for(OrderItemDTO item : itens){
             sum += item.getSubTotal();
         }
         return sum;

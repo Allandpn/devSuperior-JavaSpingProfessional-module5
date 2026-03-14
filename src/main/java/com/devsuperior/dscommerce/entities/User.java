@@ -151,7 +151,7 @@ public class User implements UserDetails {
         this.roles.remove(role);
     }
 
-    public boolean hasRole(Role authority){
+    public boolean hasRole(String authority){
         for(Role role : roles){
             if(role.getAuthority().equals(authority)){
                 return true;
@@ -160,12 +160,14 @@ public class User implements UserDetails {
         return false;
     }
 
-    public boolean hasAnyRole(Role... listRoles){
-        for(Role role : listRoles){
+    public boolean hasAnyRole(String... listRoles){
+        for(String role : listRoles){
             if(hasRole(role)){
                 return true;
             }
         }
         return false;
     }
+
+
 }
