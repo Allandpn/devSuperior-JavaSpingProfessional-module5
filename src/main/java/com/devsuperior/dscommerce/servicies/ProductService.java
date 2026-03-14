@@ -85,7 +85,7 @@ public class ProductService {
     private void updateCategory(Product entity, Set<CategorySumaryDTO> categories){
         entity.getCategories().clear();
         for(CategorySumaryDTO c : categories){
-            entity.addCategory(categoryRepository.getReferenceById(c.id()));
+            entity.addCategory(categoryRepository.getReferenceById(c.getId()));
         }
     }
 
