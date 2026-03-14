@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.dto;
 
+import com.devsuperior.dscommerce.entities.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -21,25 +22,28 @@ public class ProductRequest {
 
     String imgUrl;
 
-    @NotEmpty
-    Set<Long> categories;
+    @NotEmpty(message = "Deve possuir no mínimo uma categoria")
+    Set<CategorySumaryDTO> categories;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(String description, Double price, String imgUrl, Set<Long> categories) {
+    public ProductRequest(String description, Double price, String imgUrl) {
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
-        this.categories = categories;
     }
 
     public String getName() {
         return name;
     }
 
-    public Set getCategories() {
+    public Set<CategorySumaryDTO> getCategories() {
         return categories;
+    }
+
+    public void addCategorie(CategorySumaryDTO category) {
+        this.categories.add(category);
     }
 
     public String getImgUrl() {

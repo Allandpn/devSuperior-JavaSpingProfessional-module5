@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.servicies;
 
+import com.devsuperior.dscommerce.dto.CategorySumaryDTO;
 import com.devsuperior.dscommerce.dto.ProductCatalogDTO;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.dto.ProductRequest;
@@ -55,6 +56,7 @@ public class ProductService {
     @Transactional
     public ProductDTO updateProduct(Long id, ProductRequest productRequest){
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+        updateCategory(product, productRequest.getCategories());
         productMapper.putProdutoFromDTO(productRequest, product);
         return productMapper.toDTO(product);
     }
@@ -80,10 +82,10 @@ public class ProductService {
 
     // UTILS
 
-    private void updateCategory(Product entity, Set<Long> categories){
+    private void updateCategory(Product entity, Set<CategorySumaryDTO> categories){
         entity.getCategories().clear();
-        for(Long c : categories){
-            entity.addCategory(categoryRepository.getReferenceById(c));
+        for(CategorySumaryDTO c : categories){
+            entity.addCategory(categoryRepository.getReferenceById(c.id()));
         }
     }
 
