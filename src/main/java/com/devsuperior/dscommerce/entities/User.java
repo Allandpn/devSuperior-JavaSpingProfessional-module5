@@ -159,4 +159,13 @@ public class User implements UserDetails {
         }
         return false;
     }
+
+    public boolean hasAnyRole(Role... listRoles){
+        for(Role role : listRoles){
+            if(hasRole(role)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
